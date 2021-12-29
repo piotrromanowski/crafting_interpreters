@@ -10,12 +10,12 @@ When writing this, I was using bazel version 4.2.2.
 ## Running
 tests:
 
-   bazel test --test_output=errors :tests
+     bazel test --test_output=errors :tests
 
 the interpreter REPL:
 
-  bazel run :jlox
+    bazel run :jlox
 
 the interpreter:
 
-  bazel run :jlox -- <file>
+    bazel run :jlox -- <file>
