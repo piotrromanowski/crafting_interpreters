@@ -91,7 +91,7 @@ class GenerateAst {
 
     writer.println("    @Override");
     writer.println("    <R> R accept(Visitor<R> visitor) {");
-    writer.println("      visitor.visit" + className + baseName + "(this);");
+    writer.println("      return visitor.visit" + className + baseName + "(this);");
     writer.println("    }");
 
     writer.println("  }");

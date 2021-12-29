@@ -1,13 +1,17 @@
 load("@rules_java//java:defs.bzl", "java_binary")
+load("//:generate_ast.bzl", "generate_ast")
+
+generate_ast(name = "generate_ast_file")
 
 java_binary(
-    name = "Lox",
+    name = "jlox",
     srcs = [
+      "src/main/java/com/lox/AstPrinter.java",
       "src/main/java/com/lox/Lox.java",
       "src/main/java/com/lox/Scanner.java",
-      "src/main/java/com/lox/Expr.java",
       "src/main/java/com/lox/Token.java",
       "src/main/java/com/lox/TokenType.java",
+      "//:Expr.java",
     ],
     main_class = "com.lox.Lox",
 )
@@ -23,6 +27,7 @@ java_binary(
 java_test(
     name = "tests",
     srcs = [
+        "src/test/java/com/lox/AstPrinterTest.java",
         "src/test/java/com/lox/ScannerTest.java",
         "src/test/java/com/lox/Tests.java",
     ],
