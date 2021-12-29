@@ -8,6 +8,7 @@ java_binary(
     srcs = [
       "src/main/java/com/lox/AstPrinter.java",
       "src/main/java/com/lox/Lox.java",
+      "src/main/java/com/lox/Parser.java",
       "src/main/java/com/lox/Scanner.java",
       "src/main/java/com/lox/Token.java",
       "src/main/java/com/lox/TokenType.java",
