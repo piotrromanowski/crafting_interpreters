@@ -3,7 +3,7 @@
 def _impl(ctx):
   ctx.actions.run(
     inputs = [],
-    outputs = [ctx.outputs.expr],
+    outputs = [ctx.outputs.expr, ctx.outputs.stmt],
     arguments = [ctx.outputs.expr.dirname],
     executable = ctx.executable._generate,
   )
@@ -19,6 +19,7 @@ generate_ast = rule(
     )
   },
   outputs = {
-    "expr": "Expr.java"
+    "expr": "Expr.java",
+    "stmt": "Stmt.java"
   }
 )

@@ -15,6 +15,7 @@ java_binary(
       "src/main/java/com/lox/Token.java",
       "src/main/java/com/lox/TokenType.java",
       "//:Expr.java",
+      "//:Stmt.java",
     ],
     main_class = "com.lox.Lox",
 )
