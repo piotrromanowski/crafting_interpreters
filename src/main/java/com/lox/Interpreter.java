@@ -1,14 +1,34 @@
 package com.lox;
 
-class Interpreter implements Expr.Visitor<Object> {
+import java.util.List;
 
-  void interpret(Expr expr) {
+class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+
+  void interpret(List<Stmt> statements) {
     try {
-      Object value = expr.accept(this);
-      System.out.println(stringify(value));
+      for (Stmt stmt: statements) {
+        execute(stmt);
+      }
     } catch (RuntimeError err) {
       Lox.runtimeError(err);
     }
+  }
+
+  void execute(Stmt stmt) {
+    stmt.accept(this);
+  }
+
+  @Override
+  public Void visitExpressionStmt(Stmt.Expression stmt){
+    evaluate(stmt.expression);
+    return null;
+  }
+
+  @Override
+  public Void visitPrintStmt(Stmt.Print stmt){
+    Object object = evaluate(stmt.expression);
+    System.out.println(stringify(object));
+    return null;
   }
 
   @Override

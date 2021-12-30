@@ -52,14 +52,10 @@ public class Lox {
   private static void run(String source) {
     Scanner scanner = new Scanner(source);
     List<Token> tokens = scanner.scanTokens();
-    Parser parser = new Parser(tokens);
-    Expr expression = parser.parse();
 
-    //System.out.println(new AstPrinter().print(expression));
-    interpreter.interpret(expression);
-    //for (Token token: tokens) {
-    //  System.out.println(token);
-    //}
+    Parser parser = new Parser(tokens);
+    List<Stmt> statments = parser.parse();
+    interpreter.interpret(statments);
   }
 
   static void runtimeError(RuntimeError error){

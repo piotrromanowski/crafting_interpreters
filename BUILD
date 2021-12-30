@@ -37,7 +37,7 @@ java_test(
     ],
     test_class = "com.lox.Tests",
     deps = [
-        ":Lox",
+        ":jlox",
         "@maven//:com_google_guava_guava",
         "@maven//:junit_junit",
     ],
