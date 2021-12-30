@@ -7,6 +7,7 @@ java_binary(
     name = "jlox",
     srcs = [
       "src/main/java/com/lox/AstPrinter.java",
+      "src/main/java/com/lox/Environment.java",
       "src/main/java/com/lox/Interpreter.java",
       "src/main/java/com/lox/Lox.java",
       "src/main/java/com/lox/Parser.java",

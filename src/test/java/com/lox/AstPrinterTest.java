@@ -19,4 +19,15 @@ public class AstPrinterTest {
     AstPrinter printer = new AstPrinter();
     assertEquals(printer.print(expression), "(* (- 123) (group 45.67))");
   }
+
+  @Test
+  public void testVariableExpression() throws Exception {
+    Expr expression = new Expr.Grouping(
+      new Expr.Variable(
+        new Token(TokenType.VAR, "name", "Piotr", 1)
+    ));
+    AstPrinter printer = new AstPrinter();
+    // TODO: maybe display this differently
+    assertEquals(printer.print(expression), "(group variable name = Piotr)");
+  }
 }
