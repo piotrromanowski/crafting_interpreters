@@ -10,8 +10,10 @@ import java.util.List;
  *  varDecl        -> "var" IDENTIFIER ( "=" expression)? ";";
  *  statement      -> printStatement
  *                    | expression;
+ *                    | block;
  *  printStatement -> "print" expression;
  *  expression     -> assignment;
+ *  block          -> "{" statement "}";
  *  assignment     -> IDENTIFIER "=" assignment
  *                    | equality;
  *  equality       -> comparison (("!=" | "==") comparison)*;
@@ -69,7 +71,12 @@ class Parser {
   }
 
   private Stmt statement() {
-    if (match(TokenType.PRINT)) return printStatement();
+    if (match(TokenType.PRINT)) {
+      return printStatement();
+    }
+    if (match(TokenType.LEFT_BRACE)) {
+      return new Stmt.Block(block());
+    }
 
     return expressionStatement();
   }
@@ -78,6 +85,18 @@ class Parser {
     Expr value = expression();
     consume(TokenType.SEMICOLON, "Expect ';' after value.");
     return new Stmt.Print(value);
+  }
+
+  private List<Stmt> block() {
+    List<Stmt> stmts = new ArrayList();
+
+    while (!check(TokenType.RIGHT_BRACE)) {
+      stmts.add(declaration());
+    }
+
+    consume(TokenType.RIGHT_BRACE, "Expected '}' after block.");
+
+    return stmts;
   }
 
   private Stmt expressionStatement() {
@@ -133,7 +152,6 @@ class Parser {
     if (check(type)) {
       return advance();
     }
-
     throw error(peek(), message);
   }
 
@@ -142,7 +160,7 @@ class Parser {
     return peek().type == type;
   }
 
-  private Token peek(){
+  private Token peek() {
     return tokens.get(current);
   }
 
@@ -155,7 +173,9 @@ class Parser {
   }
 
   private Token advance() {
-    if (!isAtEnd()) current++;
+    if (!isAtEnd()) {
+      current++;
+    }
     return previous();
   }
 

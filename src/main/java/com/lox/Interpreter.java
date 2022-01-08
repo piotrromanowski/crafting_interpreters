@@ -45,6 +45,25 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   }
 
   @Override
+  public Void visitBlockStmt(Stmt.Block stmt) {
+    executeBlock(stmt.statements, new Environment(env));
+    return null;
+  }
+
+  private void executeBlock(List<Stmt> statements, Environment env) {
+    Environment previous = this.env;
+    try {
+      this.env = env;
+
+      for (Stmt stmt: statements) {
+        execute(stmt);
+      }
+    } finally {
+      this.env = previous;
+    }
+  }
+
+  @Override
   public Object visitAssignExpr(Expr.Assign expr) {
     Object value = evaluate(expr.value);
     env.assign(expr.name, value);
