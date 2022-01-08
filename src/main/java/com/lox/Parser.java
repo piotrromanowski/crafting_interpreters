@@ -4,23 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- *  program     -> declaration* EOF;
- *  declaration -> varDecl
- *                 | statement;
- *  varDecl     -> "var" IDENTIFIER ( "=" expression)? ";";
- *  statement   -> printStatement
- *                 | expression;
+ *  program        -> declaration* EOF;
+ *  declaration    -> varDecl
+ *                    | statement;
+ *  varDecl        -> "var" IDENTIFIER ( "=" expression)? ";";
+ *  statement      -> printStatement
+ *                    | expression;
  *  printStatement -> "print" expression;
- *  expression  -> equality;
- *  equality    -> comparison (("!=" | "==") comparison)*;
- *  comparison  -> term ((">" | ">=" | "<" | "<=") term)*;
- *  term        -> factor (("+" | "-") factor)*;
- *  factor      -> unary (("/" | "*") unary)*;
- *  unary       -> ("!" | "-") unary
- *                 | primary;
- *  primary     -> NUMBER | STRING | "true" | "false" | "nil"
- *                 | "(" expression ")"
- *                 | IDENTIFIER;
+ *  expression     -> assignment;
+ *  assignment     -> IDENTIFIER "=" assignment
+ *                    | equality;
+ *  equality       -> comparison (("!=" | "==") comparison)*;
+ *  comparison     -> term ((">" | ">=" | "<" | "<=") term)*;
+ *  term           -> factor (("+" | "-") factor)*;
+ *  factor         -> unary (("/" | "*") unary)*;
+ *  unary          -> ("!" | "-") unary
+ *                    | primary;
+ *  primary        -> NUMBER | STRING | "true" | "false" | "nil"
+ *                    | "(" expression ")"
+ *                    | IDENTIFIER;
  */
 
 class Parser {
@@ -85,7 +87,25 @@ class Parser {
   }
 
   private Expr expression() {
-    return equality();
+    return assignment();
+  }
+
+  private Expr assignment() {
+    Expr expr = equality();
+
+    if (match(TokenType.EQUAL)) {
+      Token equals = previous();
+      Expr value = assignment();
+
+      if (expr instanceof Expr.Variable) {
+        Token name = ((Expr.Variable)expr).name;
+        return new Expr.Assign(name, value);
+      }
+
+      error(equals, "Invalid assignment target.");
+    }
+
+    return expr;
   }
 
   private Expr equality(){
