@@ -4,15 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- *  expression -> equality;
- *  equality   -> comparison (("!=" | "==") comparison)*;
- *  comparison -> term ((">" | ">=" | "<" | "<=") term)*;
- *  term       -> factor (("+" | "-") factor)*;
- *  factor     -> unary (("/" | "*") unary)*;
- *  unary      -> ("!" | "-") unary
- *                | primary;
- *  primary    -> NUMBER | STRING | "true" | "false" | "nil"
- *                | "(" expression ")";
+ *  program     -> declaration* EOF;
+ *  declaration -> varDecl
+ *                 | statement;
+ *  varDecl     -> "var" IDENTIFIER ( "=" expression)? ";";
+ *  statement   -> printStatement
+ *                 | expression;
+ *  printStatement -> "print" expression;
+ *  expression  -> equality;
+ *  equality    -> comparison (("!=" | "==") comparison)*;
+ *  comparison  -> term ((">" | ">=" | "<" | "<=") term)*;
+ *  term        -> factor (("+" | "-") factor)*;
+ *  factor      -> unary (("/" | "*") unary)*;
+ *  unary       -> ("!" | "-") unary
+ *                 | primary;
+ *  primary     -> NUMBER | STRING | "true" | "false" | "nil"
+ *                 | "(" expression ")"
+ *                 | IDENTIFIER;
  */
 
 class Parser {
